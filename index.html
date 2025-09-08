@@ -6,6 +6,7 @@
     <title>GREEN EARTH</title>
     <!-- stylesheet  -->
     <link rel="stylesheet" href="./styles/tailwind.config.js">
+    <link rel="stylesheet" href="./styles/style.css">
     <!-- font awesome cdn -->
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
      <!-- tailwind and daisy UI -->
@@ -78,24 +79,41 @@
 
     <main class="">
        <div class="text-center py-10">
-         <h1 class="font-bold text-5xl text-[#1F2937]">Choose Your Trees</h1>
+         <h1 class="font-bold text-3xl text-[#1F2937]">Choose Your Trees</h1>
        </div>
        <!--categories,cards and cart   -->
-       <section>
-        <!-- categories div -->
-        <div>
+       <section class="flex flex-col lg:flex-row gap-5 p-4">
+  <!-- categories div -->
+         <div class="w-full lg:w-1/5">
+           <h3 class="text-2xl font-bold text-[#1F2937] mb-3">Categories</h3>
+           <div id="categories-container">
+             <!-- categories will load here -->
+           </div>
+         </div>
 
-        </div>
         <!-- cards div -->
-        <div>
-
+        <div id="plants-container" class="w-full lg:w-3/5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- plant cards will load here -->
         </div>
+      
         <!-- cart div -->
-        <div>
-
+        <div  class="bg-white rounded-sm w-full lg:w-1/5 h-fit p-3 shadow-md">
+          <h2 class="text-xl font-bold mb-3">Your Cart</h2>
+          <div  >
+            <div id="cart-container" class="p-1">
+             
+            </div>
+      
+            <div class="flex justify-between mt-4">
+              <h2 class="font-bold text-xl">Total:</h2>
+              <h2 class="font-bold text-xl">$ <span id="cart-total">0</span></h2>
+            </div>
+          </div>
         </div>
-       </section>
+</section>
 
+       
+      
     </main>
     
     <script src="./script/script.js"></script>
