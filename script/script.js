@@ -3,11 +3,17 @@ document.getElementById("menu-btn").addEventListener("click", function () {
     document.getElementById("mobile-menu").classList.toggle("hidden");
 });
 
+
+
   //   load categories function
 const loadCategories = () =>{
     fetch("https://openapi.programming-hero.com/api/categories")
     .then(res => res.json())//promise of json
-    .then(json => displayCategories(json.categories));
+    .then(json => {
+        
+
+        displayCategories(json.categories)
+    });
 };
 loadCategories();
 
@@ -16,27 +22,37 @@ const displayCategories = (categories) => {
   const categoriesContainer = document.getElementById("categories-container");
   categoriesContainer.innerHTML = '';
 
-  for (let categorie of categories) {
-    const categoriesDiv = document.createElement('div');
-    categoriesDiv.innerHTML = `
-       <button id="categorie-btn-" 
-        onclick="loadPlantsbycategories('${categorie.id}')" 
-        class="text-xl mt-2 w-full bg-[#e9fdf0] text-left active shadow-none border-none text-black font-semibold p-1 rounded-none focus:outline-none">
-  ${categorie.category_name}
- </button>
-
-
-    `;
+for (let categorie of categories) {
+  const categoriesDiv = document.createElement('div');
+  categoriesDiv.innerHTML = `
+    <button 
+      id="categorie-btn-${categorie.id}" 
+      onclick="loadPlantsbycategories('${categorie.id}'); toggleActive('${categorie.id}')"
+      class="category-btn text-xl mt-2 w-full bg-[#e9fdf0] text-left shadow-none border-none text-black font-semibold p-1 rounded-sm focus:outline-none">
+      ${categorie.category_name}
+    </button>
+  `;
+  categoriesContainer.appendChild(categoriesDiv);
+}
     categoriesContainer.appendChild(categoriesDiv);
+    classToggle();
+  }
+const toggleActive = (id) => {
+ 
+  const buttons = document.querySelectorAll('.category-btn');
+  buttons.forEach(btn => btn.classList.remove("active"));
+  const clickedBtn = document.getElementById(`categorie-btn-${id}`);
+  if (clickedBtn) {
+    clickedBtn.classList.add("active");
   }
 };
-
-// displayCategories();
 
 const loadAllPlants = (id) =>{
     fetch(`https://openapi.programming-hero.com/api/plants`)
     .then(res => res.json())
-    .then(json => displayAllPlants(json.plants))
+    .then(json => {
+         displayAllPlants(json.plants)
+    })
 }
 loadAllPlants();
 
@@ -56,14 +72,14 @@ const displayAllPlants = (plants) => {
                     <p class="h-[80px] overflow-y-auto font-semibold mt-3">${plant.description}</p>
 
                     <div class="flex justify-between mt-3">
-                        <button class=" btn  rounded-4xl bg-[#DCFCE7] 
+                        <button id="category-btn" class=" btn  rounded-4xl bg-[#DCFCE7] 
                         text-green-600 font-bold">${plant.category}</button>
                         
                         <h3 class="text-xl font-bold">$ <span id="cart-price-${plant.id}">${plant.price}</span></h3>
 
                     </div>
                     <div class="mt-3">
-                        <button id="cartBtn-${plant.id}" onclick="addToCart(${plant.id})" class="btn active rounded-4xl w-full text-white font-bold">Add to Cart</button>
+                        <button id="cartBtn-${plant.id}" onclick="addToCart(${plant.id}, ${plant.price})" class="btn active rounded-4xl w-full text-white font-bold">Add to Cart</button>
 
                     </div>
                 </div>
@@ -72,24 +88,22 @@ const displayAllPlants = (plants) => {
     `
    
     plantsContainer.append(plantsDiv);
+
     }
-    cartTotal
+
 }
 
-function cartTotal(){
-    const plantPrice = document.getElementById(`cart-price`)
+function cartTotal(id,price){
+    const plantPrice = document.getElementById(`cart-price-${price}`).innerHTML
+    console.log(plantPrice)
 }
 
 const addToCart = async (id) => {
-  // Fetch plant data from API
+
   const res = await fetch(`https://openapi.programming-hero.com/api/plant/${id}`);
   const data = await res.json();
   const plant = data.plants;
-
-  // Select cart container
   const cartContainer = document.getElementById("cart-container");
-
-  // Create a new cart item div
   const cartItem = document.createElement("div");
   cartItem.classList = "p-3 rounded-sm shadow-sm mb-3";
 
@@ -105,10 +119,8 @@ const addToCart = async (id) => {
     </div>
   `;
 
-  // Append the new item to the cart
   cartContainer.appendChild(cartItem);
 
-  // Update total
 //   cartTotal();
 };
 
