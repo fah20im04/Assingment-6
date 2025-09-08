@@ -83,7 +83,7 @@
        </div>
        <!--categories,cards and cart   -->
        <section class="flex flex-col lg:flex-row gap-5 p-4">
-  <!-- categories div -->
+            <!-- categories div -->
          <div class="w-full lg:w-1/7">
            <h3 class="text-2xl font-bold text-[#1F2937] mb-3">Categories</h3>
            <div id="categories-container">
@@ -110,8 +110,47 @@
             </div>
           </div>
         </div>
-</section>
+       </section>
 
+       <!-- campaign section -->
+       <section class="text-[#1F2937] px-4 py-12 md:py-16">
+         <h2 class="text-center text-3xl font-bold      mb-8">About the Campaign</h2>
+       
+         <div class="flex flex-col md:flex-row items-center      md:items-start gap-8 md:gap-16">
+         <div class="flex justify-center md:w-1/2">
+           <img class="w-full max-w-md md:max-w-lg" src="./assets/about.png" alt="About the Campaign">
+         </div>
+     
+         <div class="mt-[150px] md:w-1/2 text-base md:text-lg      font-medium">
+           <p class="mb-4">
+             Green Earth is a global tree plantation      initiative dedicated to fighting climate      change. Since our start, we’ve planted over      500,000 trees worldwide. By joining our      campaign, you help restore forests, create      habitats for wildlife, and combat global      warming.
+           </p>
+           <ul class="list-disc list-inside space-y-2">
+             <li>Restoration of natural habitats</li>
+             <li>Improvement of air quality</li>
+             <li>Support for local communities</li>
+           </ul>
+         </div>
+        </div>
+       </section>
+
+       <!-- Open the modal using ID.showModal() method -->
+<!-- <button class="btn" onclick="my_modal_5.showModal()">open modal</button> -->
+<dialog id="plant_modal" class="modal modal-bottom sm:modal-middle">
+  <div class="modal-box">
+    <div id="details-container">
+        
+        
+
+    </div>
+    <div class="modal-action">
+      <form method="dialog">
+        <!-- if there is a button in form, it will close the modal -->
+        <button class="btn">Close</button>
+      </form>
+    </div>
+  </div>
+</dialog>
        
       
     </main>

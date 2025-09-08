@@ -28,7 +28,7 @@ for (let categorie of categories) {
     <button 
       id="categorie-btn-${categorie.id}" 
       onclick="loadPlantsbycategories('${categorie.id}'); toggleActive('${categorie.id}')"
-      class="category-btn text-xl mt-2 w-full bg-[#e9fdf0] text-left shadow-none border-none text-black font-semibold p-1 rounded-sm focus:outline-none">
+      class="category-btn text-xl mt-2 w-full bg-[#e9fdf0] text-left hover:bg-green-500 shadow-none border-none text-black font-semibold p-1 rounded-sm focus:outline-none ">
       ${categorie.category_name}
     </button>
   `;
@@ -68,7 +68,7 @@ const displayAllPlants = (plants) => {
                     <img class="h-1/2 w-full max-h-[300px] rounded-sm " src="${plant.image}" alt="">
                 </div>
                 <div>
-                    <h3 class="mt-3 text-xl font-bold">${plant.name}</h3>
+                    <h3 onclick="loadPlantDetail(${plant.id})" class="mt-3 text-xl font-bold ">${plant.name}</h3>
                     <p class="h-[80px] overflow-y-auto font-semibold mt-3">${plant.description}</p>
 
                     <div class="flex justify-between mt-3">
@@ -91,6 +91,40 @@ const displayAllPlants = (plants) => {
 
     }
 
+};
+const loadPlantDetail = async(id) =>{
+    const url = `https://openapi.programming-hero.com/api/plant/${id}`
+    const res =await fetch(url);
+    const details = await res.json();
+    displayModal(details.plants)
+
+}
+
+const displayModal = (plants)=>{
+    console.log(plants)
+    const detailsModal = document.getElementById('details-container');
+    
+    detailsModal.innerHTML=`
+       <div class="flex gap-2">
+             <div>
+                <h2 class="text-black text-3xl font-bold">${plants.name}</h2>
+                <img class="mt-3 h-[300px] rounded-sm " src="${plants.image}" alt="">
+                <h2 class="text-black text-xl font-bold mt-3">${plants.category}</h2>
+             </div>
+             <br>
+             <div class="w-1/2 justify-center items-center">
+                <h2 class="text-black text-3xl font-bold">Description</h2>
+                <p class="mt-3 font-semibold">${plants.description}</p>
+
+                <h4 class="bg-green-300 text-center w-full rounded-xl mt-3 font-bold text-black">${plants.price}</h4>
+                <h4 class="h-[70px]  bg-green-300 text-center w-full rounded-xl mt-3 font-bold text-black">গাছ লাগান পরিবেশ বাচান</h4>
+             </div>
+             
+       </div>
+    `;
+    
+
+    document.getElementById("plant_modal").showModal();
 }
 
 function cartTotal(id,price){
