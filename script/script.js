@@ -2,8 +2,22 @@
 document.getElementById("menu-btn").addEventListener("click", function () {
     document.getElementById("mobile-menu").classList.toggle("hidden");
 });
+
+  //  spinner function
+const manageSpinner = (status) => {
+  if (status === true) {
+    document.getElementById("spinner").classList.remove("hidden");
+    document.getElementById("spinner-container").classList.add("hidden");
+  } else {
+    document.getElementById("spinner").classList.add("hidden");
+    document.getElementById("spinner-container").classList.remove("hidden");
+  }
+};
+
   //   load categories function
 const loadCategories = () =>{
+    
+     manageSpinner(true);
     fetch("https://openapi.programming-hero.com/api/categories")
     .then(res => res.json())//promise of json
     .then(json => {
@@ -11,6 +25,8 @@ const loadCategories = () =>{
 
         displayCategories(json.categories)
     });
+     manageSpinner(false);
+    
 };
 loadCategories();
 
@@ -25,14 +41,13 @@ const displayCategories = (categories) => {
          <button 
            id="categorie-btn-${categorie.id}" 
            onclick="loadPlantsbycategories('${categorie.id}'); toggleActive('${categorie.id}')"
-           class="category-btn text-xl mt-2 w-full bg-[#e9fdf0] text-left hover:bg-green-500 shadow-none border-none text-black font-semibold p-1      rounded-sm focus:outline-none ">
+           class="category-btn text-xl mt-2 w-full bg-[#e9fdf0] text-left hover:bg-green-500 shadow-none border-none text-black font-semibold p-1 rounded-sm focus:outline-none ">
            ${categorie.category_name}
          </button>
-       `;
+         `;
        categoriesContainer.appendChild(categoriesDiv);
+
      }
-    categoriesContainer.appendChild(categoriesDiv);
-    classToggle();
   }
 const toggleActive = (id) => {
  
@@ -76,7 +91,8 @@ const displayAllPlants = (plants) => {
 
                     </div>
                     <div class="mt-3">
-                        <button id="cartBtn-${plant.id}" onclick="addToCart(${plant.id}, ${plant.price})" class="btn active rounded-4xl w-full text-white font-bold">Add to Cart</button>
+                        <button id="cartBtn-${plant.id}" onclick="addToCart(${plant.id}, ${plant.price}); cartTotal();"
+                        class="btn active rounded-4xl w-full text-white font-bold">Add to Cart</button>
 
                     </div>
                 </div>
@@ -98,7 +114,7 @@ const loadPlantDetail = async(id) =>{
 }
 
 const displayModal = (plants)=>{
-    console.log(plants)
+    // console.log(plants)
     const detailsModal = document.getElementById('details-container');
     
     detailsModal.innerHTML=`
@@ -122,37 +138,41 @@ const displayModal = (plants)=>{
     
 
     document.getElementById("plant_modal").showModal();
-}
-
-function cartTotal(id,price){
-    const plantPrice = document.getElementById(`cart-price-${price}`).innerHTML
-    console.log(plantPrice)
+    
 }
 
 const addToCart = async (id) => {
-
   const res = await fetch(`https://openapi.programming-hero.com/api/plant/${id}`);
   const data = await res.json();
-  const plant = data.plants;
+  const plant = data.plants; 
+
   const cartContainer = document.getElementById("cart-container");
+
   const cartItem = document.createElement("div");
-  cartItem.classList = "p-3 rounded-sm shadow-sm mb-3";
+  cartItem.className = "cart-item p-3 rounded-sm shadow-sm mb-3 flex justify-between items-center bg-gray-100";
 
   cartItem.innerHTML = `
-    <div class="flex justify-between items-center bg-gray-200 p-1 rounded-sm ">
-        <div class="flex-col justify-between items-center">
-              <h3 class="text-sm font-bold">${plant.name}</h3>
-              <p class="font-normal text-gray-500">$ <span id="cart-container-total">${plant.price}</span> x <span>1</span></p>
-        </div>
-        <div>
-            <button class="text-red-700 text-xl font-bold mr-2">X</button>
-        </div>
+    <div>
+      <h3 class="text-sm font-bold">${plant.name}</h3>
+      <p class="font-normal text-gray-500">
+        $ <span class="cart-item-price" data-price="${plant.price}">${plant.price}</span>
+         <span class="cart-item-qty"></span>
+      </p>
+    </div>
+    <div>
+      <button class="remove-btn text-red-700 text-xl font-bold mr-2">X</button>
     </div>
   `;
 
   cartContainer.appendChild(cartItem);
 
+  cartItem.querySelector(".remove-btn").addEventListener("click", () => {
+    cartItem.remove();
+    cartTotal();
+  });
 
+  
+  cartTotal();
 };
 
 const loadPlantsbycategories = async(id) =>{
@@ -161,5 +181,21 @@ const loadPlantsbycategories = async(id) =>{
     const res = await fetch(`https://openapi.programming-hero.com/api/category/${id}`);
     const categories = await res.json();
     displayAllPlants(categories.plants);
+    manageSpinner(false);
     
 }
+
+function cartTotal() {
+  var prices = document.querySelectorAll(".cart-item-price");
+  var sum = 0;
+
+  for (let i = 0; i < prices.length; i++) {
+    let price = parseInt(prices[i].innerText);
+    let qty = parseInt(prices[i].parentNode.querySelector(".cart-item-qty").innerText);
+    sum = sum + (price);
+  }
+
+  document.getElementById("cart-total").innerText = "" + sum;
+}
+
+

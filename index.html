@@ -78,9 +78,15 @@
     </header>
 
     <main class="">
-       <div class="text-center py-10">
+       <div id="spinner-container" class="text-center py-10">
          <h1 class="font-bold text-3xl text-[#1F2937]">Choose Your Trees</h1>
+         <div id="spinner" class="">
+            <br>
+            <span class="loading loading-dots loading-xl"></span>
+         </div>
        </div>
+       
+        
        <!--categories,cards and cart   -->
        <section class="flex flex-col lg:flex-row gap-5 p-4">
             <!-- categories div -->
@@ -138,7 +144,7 @@
            <dialog id="plant_modal" class="modal modal-bottom            sm:modal-middle">
              <div class="modal-box">
                <div id="details-container">
-                
+
                </div>
                <div class="modal-action">
                  <form method="dialog">
