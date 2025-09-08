@@ -2,9 +2,6 @@
 document.getElementById("menu-btn").addEventListener("click", function () {
     document.getElementById("mobile-menu").classList.toggle("hidden");
 });
-
-
-
   //   load categories function
 const loadCategories = () =>{
     fetch("https://openapi.programming-hero.com/api/categories")
@@ -22,18 +19,18 @@ const displayCategories = (categories) => {
   const categoriesContainer = document.getElementById("categories-container");
   categoriesContainer.innerHTML = '';
 
-for (let categorie of categories) {
-  const categoriesDiv = document.createElement('div');
-  categoriesDiv.innerHTML = `
-    <button 
-      id="categorie-btn-${categorie.id}" 
-      onclick="loadPlantsbycategories('${categorie.id}'); toggleActive('${categorie.id}')"
-      class="category-btn text-xl mt-2 w-full bg-[#e9fdf0] text-left hover:bg-green-500 shadow-none border-none text-black font-semibold p-1 rounded-sm focus:outline-none ">
-      ${categorie.category_name}
-    </button>
-  `;
-  categoriesContainer.appendChild(categoriesDiv);
-}
+     for (let categorie of categories) {
+       const categoriesDiv = document.createElement('div');
+       categoriesDiv.innerHTML = `
+         <button 
+           id="categorie-btn-${categorie.id}" 
+           onclick="loadPlantsbycategories('${categorie.id}'); toggleActive('${categorie.id}')"
+           class="category-btn text-xl mt-2 w-full bg-[#e9fdf0] text-left hover:bg-green-500 shadow-none border-none text-black font-semibold p-1      rounded-sm focus:outline-none ">
+           ${categorie.category_name}
+         </button>
+       `;
+       categoriesContainer.appendChild(categoriesDiv);
+     }
     categoriesContainer.appendChild(categoriesDiv);
     classToggle();
   }
@@ -155,16 +152,8 @@ const addToCart = async (id) => {
 
   cartContainer.appendChild(cartItem);
 
-//   cartTotal();
+
 };
-
-// const cartTotal = (price, id) => {
-//   const plantPrice = document.getElementById(`cart-price-${id}`);
-//   console.log(plantPrice); // should never be null now
-// };
-
-
-
 
 const loadPlantsbycategories = async(id) =>{
 
